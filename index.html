@@ -1,16 +1,40 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8"/>
-    <title>Marionette Behaviors</title>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Marionette Behaviors</title>
 
-    <script type="text/javascript" src="lib/jquery.js"></script>
-    <script type="text/javascript" src="lib/underscore.js"></script>
-    <script type="text/javascript" src="lib/backbone.js"></script>
-    <script type="text/javascript" src="lib/marionette.js"></script>
-  </head>
-  <body>
+		<script type="text/javascript" src="lib/jquery.js"></script>
+		<script type="text/javascript" src="lib/underscore.js"></script>
+		<script type="text/javascript" src="lib/backbone.js"></script>
+		<script type="text/javascript" src="lib/marionette.js"></script>
+		<script type="text/javascript" src="lib/backbone-localstorage.js"></script>
 
-    <script type="text/javascript" src="src/app.js"></script>
-  </body>
+		<link href="css/style.css" rel="stylesheet"/>
+	</head>
+	<body>
+		<div id="new-toBuy-container"></div>
+		<div id="toBuy-list-container"></div>
+
+		<script type="text/javascript" src="src/app.js"></script>
+
+		<script type="text/template" id="new-toBuy-template">
+			<label for="name">Item Name: </label>
+			<input type="text" class="app-toBuy-field" name="name">
+			<label for="quantity">Quantity: </label>
+			<input type="text" class="app-toBuy-field" name="quantity" value="<%= quantity %>">
+			<label for="unitPrice">Unit Price: </label>
+			<input type="text" class="app-toBuy-field" name="unitPrice" value="<%= unitPrice %>">
+			<button type="button" class="app-save-new-toBuy">Add Item</button>
+		</script>
+		<script type="text/template" id="toBuy-template">
+			<input type="text" class="app-toBuy-field" name="name" value="<%= name %>">
+
+			<input type="text" class="app-toBuy-field" name="quantity" value="<%= quantity %>">
+			@
+			<input type="text" class="app-toBuy-field" name="unitPrice" value="<%= unitPrice %>">
+
+			<span class="total-cost">Total Cost: $<%= unitPrice * quantity %></span>
+		</script>
+	</body>
 </html>
