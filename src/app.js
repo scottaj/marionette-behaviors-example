@@ -31,6 +31,8 @@ var ToBuyCollection = Backbone.Collection.extend({
 var NewToBuyView = Backbone.Marionette.ItemView.extend({
 	tagName: "form",
 
+	className: "new-item-toBuy",
+
 	template: App.template("#new-toBuy-template"),
 
 	model: new ToBuyModel(),
@@ -61,11 +63,16 @@ var NewToBuyView = Backbone.Marionette.ItemView.extend({
 	postAndClearModel: function() {
 		App.vent.trigger("toBuy:created", this.model.toJSON());
 		this.model.clear().set(this.model.defaults);
+		this.render();
 	}
 });
 
 var ToBuyView = Backbone.Marionette.ItemView.extend({
 	template: App.template("#toBuy-template"),
+
+	tagName: "li",
+
+	className: "item-toBuy",
 
 	ui: {
 		dataFields: ".app-toBuy-field",
@@ -91,6 +98,8 @@ var ToBuyView = Backbone.Marionette.ItemView.extend({
 });
 
 var ToBuyListView = Backbone.Marionette.CollectionView.extend({
+	tagName: 'ol',
+
 	childView: ToBuyView,
 
 	initialize: function() {

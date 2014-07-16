@@ -1,0 +1,34 @@
+body {
+	margin: 80px;
+}
+
+.shopping-list {
+	display: inline-block;
+	width: 40%;
+}
+
+.item-toBuy {
+	margin-bottom: 10px;
+}
+
+.input-group {
+	box-sizing: border-box;
+	font-size: 18px;
+	margin: 5px;
+}
+
+.input-group button, .input-group input[type="text"] {
+	font-size: 18px;
+}
+
+.input-group label {
+	margin-right: 10px;
+}
+
+.toggle-input {
+	border: none;
+}
+
+.toggle-input:active {
+	border: 1px solid black;
+}
