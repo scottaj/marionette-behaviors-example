@@ -28,6 +28,22 @@ var ToBuyCollection = Backbone.Collection.extend({
 	localStorage: new Backbone.LocalStorage("to-buy")
 });
 
+var SaveBehavior = Backbone.Marionette.Behavior.extend({
+	defaults: {
+		fieldSelector: ":input",
+	},
+
+	onSave: function() {
+		var self = this;
+		this.$(this.options.fieldSelector).each(function() {
+			var $el = $(this);
+			self.view.model.set($el.attr("name"), $el.val());
+		});
+
+		this.view.model.save();
+	}
+});
+
 var NewToBuyView = Backbone.Marionette.ItemView.extend({
 	tagName: "form",
 
@@ -38,11 +54,10 @@ var NewToBuyView = Backbone.Marionette.ItemView.extend({
 	model: new ToBuyModel(),
 
 	ui: {
-		dataFields: ".app-toBuy-field",
 		saveButton: ".app-save-new-toBuy"
 	},
 
-	events: {
+	triggers: {
 		"click @ui.saveButton": "save"
 	},
 
@@ -50,14 +65,11 @@ var NewToBuyView = Backbone.Marionette.ItemView.extend({
 		sync: "postAndClearModel"
 	},
 
-	save: function() {
-		var self = this;
-		this.ui.dataFields.each(function() {
-			var $el = $(this);
-			self.model.set($el.attr("name"), $el.val());
-		});
-
-		this.model.save();
+	behaviors: {
+		SaveBehavior: {
+			behaviorClass: SaveBehavior,
+			fieldSelector: ".app-toBuy-field"
+		}
 	},
 
 	postAndClearModel: function() {
@@ -78,7 +90,7 @@ var ToBuyView = Backbone.Marionette.ItemView.extend({
 		dataFields: ".app-toBuy-field",
 	},
 
-	events: {
+	triggers: {
 		"change @ui.dataFields": "save"
 	},
 
@@ -86,15 +98,12 @@ var ToBuyView = Backbone.Marionette.ItemView.extend({
 		sync: "render"
 	},
 
-	save: function() {
-		var self = this;
-		this.ui.dataFields.each(function() {
-			var $el = $(this);
-			self.model.set($el.attr("name"), $el.val());
-		});
-
-		this.model.save();
-	},
+	behaviors: {
+		SaveBehavior: {
+			behaviorClass: SaveBehavior,
+			fieldSelector: ".app-toBuy-field"
+		}
+	}
 });
 
 var ToBuyListView = Backbone.Marionette.CollectionView.extend({
