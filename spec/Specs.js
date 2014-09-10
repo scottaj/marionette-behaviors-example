@@ -1,20 +1,27 @@
 describe("Grocery List App", function() {
 
 	var saveSharedBehavior = function(context) {
-		var view, model;
+		var view, model, inputSelector;
 
 		beforeEach(function() {
 			view = new context.ViewClass(context.viewArgs);
 			model = view[context.modelProperty] || view.model;
+			inputSelector = context.inputSelector;
 		});
 
-		it("fails", function() {
-			fail();
+		it("saves", function() {
+			view.render();
+			var boundInput = view.$(inputSelector).first();
+			var propertyName = boundInput.attr("name");
+			boundInput.attr("value", "peanuts").change();
+			view.trigger("save");
+			
+			expect(view.model.get(propertyName)).toBe("peanuts");
 		});
 
 	};
 
-	describe("New To Buy View", function() {
+	describe("NewToBuyView", function() {
 		var newToBuyView;
 
 		beforeEach(function() {
@@ -33,13 +40,14 @@ describe("Grocery List App", function() {
 		describe("Save", function() {
 			var context = {
 				ViewClass: NewToBuyView,
-				viewArgs: {}
+				viewArgs: {},
+				inputSelector: ".app-toBuy-field"
 			};
 			saveSharedBehavior(context);
 		});
 	});
 
-	describe("To Buy List View", function() {
+	describe("ToBuyListView", function() {
 		var toBuyListView;
 
 		beforeEach(function() {
@@ -50,7 +58,7 @@ describe("Grocery List App", function() {
 			it("adds an element to the collection", function() {
 				var initialCollectionSize = toBuyListView.collection.size();
 
-				toBuyListView.addToCollection(new Backbone.Model());
+				toBuyListView.addToCollection(new ToBuyModel());
 
 				expect(toBuyListView.collection.size()).toBe(initialCollectionSize + 1);
 			});
@@ -58,7 +66,8 @@ describe("Grocery List App", function() {
 		describe("Save", function() {
 			var context = {
 				ViewClass: ToBuyListView,
-				viewArgs: {collection: new ToBuyCollection()}
+				viewArgs: {collection: new ToBuyCollection()},
+				inputSelector: ".app-toBuy-field"
 			};
 			saveSharedBehavior(context);
 		});

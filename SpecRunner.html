@@ -25,11 +25,46 @@
 
 	</head>
 	<body>
-		<div class="view-containers" style="display:none">
+<!--		<div class="view-containers" style="display:none">-->
 			<div id="new-toBuy-container"></div>
 			<div id="toBuy-list-container"></div>
-		</div>
-		<script type="text/template" id="new-toBuy-template"></script>
-		<script type="text/template" id="toBuy-template"></script>
+<!--		</div>-->
+		
+		<!-- templates -->
+		<script type="text/template" id="new-toBuy-template">
+			<div class="input-group">
+				<label for="name">Item Name: </label>
+				<input type="text" class="app-toBuy-field" name="name">
+			</div>
+
+      <div class="input-group">
+				<label for="quantity">Quantity: </label>
+				<input type="text" class="app-toBuy-field" name="quantity" value="<%= quantity %>">
+			</div>
+
+      <div class="input-group">
+				<label for="unitPrice">Unit Price: </label>
+				<input type="text" class="app-toBuy-field" name="unitPrice" value="<%= unitPrice %>">
+			</div>
+
+      <div class="input-group">
+		    <button type="button" class="app-save-new-toBuy">Add Item</button>
+		  </div
+		</script>
+		<script type="text/template" id="toBuy-template">
+      <div class="input-group">
+				<input type="text" size="<%= name.length %>" class="app-toBuy-field toggle-input" name="name" value="<%= name %>">
+			</div>
+
+      <div class="input-group">
+				<input type="text" size="<%= quantity.length %>" class="app-toBuy-field toggle-input" name="quantity" value="<%= quantity %>">
+				@
+				<input type="text" size="<%= unitPrice.length %>" class="app-toBuy-field toggle-input" name="unitPrice" value="<%= unitPrice %>">
+			</div>
+
+      <div class="input-group">
+		 <span class="total-cost"><strong>Total Cost: $<%= unitPrice * quantity %></strong></span>
+			</div>
+		</script>
 	</body>
 </html>
