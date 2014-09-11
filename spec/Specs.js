@@ -10,13 +10,18 @@ describe("Grocery List App", function() {
 		});
 
 		it("saves", function() {
+			debugger
 			view.render();
 			var boundInput = view.$(inputSelector).first();
 			var propertyName = boundInput.attr("name");
-			boundInput.attr("value", "peanuts").change();
-			view.trigger("save");
+			boundInput.val("peanuts");
 			
-			expect(view.model.get(propertyName)).toBe("peanuts");
+			var spy = sinon.spy();
+			view.model.on("change:" + propertyName, spy);
+			
+			view.triggerMethod("save");
+			
+			expect(spy).toHaveBeenCalledWith(sinon.match.any, "peanuts", sinon.match.any);
 		});
 
 	};
@@ -46,7 +51,27 @@ describe("Grocery List App", function() {
 			saveSharedBehavior(context);
 		});
 	});
+	
+	describe("ToBuyView", function() {
+		var toBuyView;
+		var getViewArgs = function() {
+			return {model: new ToBuyModel()};
+		};
 
+		beforeEach(function() {
+			toBuyView = new ToBuyView(getViewArgs());
+		});
+
+		describe("Save", function() {
+			var context = {
+				ViewClass: ToBuyView,
+				viewArgs: getViewArgs(),
+				inputSelector: ".app-toBuy-field"
+			};
+			saveSharedBehavior(context);
+		});
+	});
+	
 	describe("ToBuyListView", function() {
 		var toBuyListView;
 
@@ -63,14 +88,5 @@ describe("Grocery List App", function() {
 				expect(toBuyListView.collection.size()).toBe(initialCollectionSize + 1);
 			});
 		});
-		describe("Save", function() {
-			var context = {
-				ViewClass: ToBuyListView,
-				viewArgs: {collection: new ToBuyCollection()},
-				inputSelector: ".app-toBuy-field"
-			};
-			saveSharedBehavior(context);
-		});
 	});
-
 });
