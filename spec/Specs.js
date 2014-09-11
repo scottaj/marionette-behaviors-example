@@ -10,7 +10,6 @@ describe("Grocery List App", function() {
 		});
 
 		it("saves", function() {
-			debugger
 			view.render();
 			var boundInput = view.$(inputSelector).first();
 			var propertyName = boundInput.attr("name");
